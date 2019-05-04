@@ -138,6 +138,9 @@ def _process_utterance(mel_dir, wav_dir, index, wav_path,speaker_id, hparams):
 	time_steps = len(out)
 
 	# Write the spectrogram and audio to disk
+	if hparams.gin_channels>0:
+		speaker_name = hparams.speakers[speaker_id]
+		index = speaker_name+'_'+index
 	audio_filename = os.path.join(wav_dir, 'audio-{}.npy'.format(index))
 	mel_filename = os.path.join(mel_dir, 'mel-{}.npy'.format(index))
 	np.save(audio_filename, out.astype(out_dtype), allow_pickle=False)
