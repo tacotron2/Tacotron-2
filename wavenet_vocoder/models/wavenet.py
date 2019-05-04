@@ -37,7 +37,7 @@ def _expand_global_features(batch_size, time_length, global_features, data_forma
 	# 	lambda: global_features)
 	g = tf.reshape(global_features, [tf.shape(global_features)[0], global_features.shape[1], 1])
 	g_shape = tf.shape(g)
-	
+
 	#[batch_size, channels, 1] ==> [batch_size, channels, time_length]
 	# ones = tf.ones([g_shape[0], g_shape[1], time_length], tf.int32)
 	# g = g * ones
@@ -877,7 +877,7 @@ class WaveNet():
 			if test_inputs is not None:
 				next_input = tf.expand_dims(test_inputs[:, time, :], axis=1)
 
-			time = tf.Print(time + 1, [time+1, time_length])
+			time = time + 1
 			#output = x (maybe next input)
 			# if test_inputs is not None:
 			# 	#override next_input with ground truth
