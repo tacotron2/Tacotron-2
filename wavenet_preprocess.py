@@ -37,7 +37,7 @@ def write_metadata(metadata, out_dir):
 
 def run_preprocess(args, hparams):
 	output_folder = os.path.join(args.base_dir, args.output)
-	if args.extract:
+	if args.extract==True:
 		extract_data(args.input_dir,args.input_dir)
 	preprocess(args, args.input_dir, output_folder, hparams)
 
