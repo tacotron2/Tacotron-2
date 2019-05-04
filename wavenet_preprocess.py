@@ -1,7 +1,7 @@
 import argparse
 import os
 from multiprocessing import cpu_count
-from os.path import isfile, join, splitext
+from os.path import isfile, join, splitext,listdir
 import tarfile
 from datasets import wavenet_preprocessor
 from hparams import hparams
@@ -60,7 +60,7 @@ def main():
 	run_preprocess(args, modified_hp)
 
 def extract_data(data_root,extract_path):
-	files = [f for f in os.path.listdir(data_root) if isfile(join(data_root, f))]
+	files = [f for f in listdir(data_root) if isfile(join(data_root, f))]
 	for file in files:
 		print("Extracting:", file)
 		tar = tarfile.open(join(data_root, file), "r:bz2")
