@@ -9,9 +9,10 @@ from tqdm import tqdm
 
 
 def preprocess(args, input_dir, out_dir, hparams):
-	
 	if args.extract:
-		extract_data(input_dir,input_dir)
+		for folder in os.listdir(input_dir):
+			in_dir = os.path.join(input_dir,folder)
+			extract_data(in_dir,input_dir)
 	mel_dir = os.path.join(out_dir, 'mels')
 	wav_dir = os.path.join(out_dir, 'audio')
 	os.makedirs(mel_dir, exist_ok=True)
