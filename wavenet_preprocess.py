@@ -3,7 +3,7 @@ import os
 from multiprocessing import cpu_count
 from os.path import isfile, join, splitext
 import tarfile
-from datasets import wavenet_preprocessor
+from datasets.wavenet_preprocessor import build_from_path
 from hparams import hparams
 from tqdm import tqdm
 
@@ -20,7 +20,7 @@ def preprocess(args, input_dir, out_dir, hparams):
 		if os.path.isdir(folder):
 			in_dir = os.path.join(input_dir,folder+'/wavs')
 			speaker_id = hparams.speakers.index(folder.split('_')[2])
-			metadata+= wavenet_preprocessor.build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
+			metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
 	write_metadata(metadata, out_dir)
 
 def write_metadata(metadata, out_dir):
