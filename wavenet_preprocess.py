@@ -37,7 +37,7 @@ def write_metadata(metadata, out_dir):
 
 def run_preprocess(args, hparams):
 	output_folder = os.path.join(args.base_dir, args.output)
-	if args.extract==True:
+	if args.extract:
 		extract_data(args.input_dir,args.input_dir)
 	preprocess(args, args.input_dir, output_folder, hparams)
 
@@ -45,7 +45,7 @@ def main():
 	print('initializing preprocessing..')
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--base_dir', default='')
-	parser.add_argument('--extract', default=False)
+	parser.add_argument('--extract', default=True,type=bool)
 	parser.add_argument('--hparams', default='',
 		help='Hyperparameter overrides as a comma-separated list of name=value pairs')
 	parser.add_argument('--input_dir', default='dataset')
