@@ -15,7 +15,7 @@ def preprocess(args, input_dir, out_dir, hparams):
 	os.makedirs(wav_dir, exist_ok=True)
 	metadata = []
 	for folder in os.listdir(input_dir):
-		if not folder.str.endswith('.tar.bz2'):
+		if not folder.endswith('.tar.bz2'):
 			print('preprocessing',folder,'...')
 			in_dir = os.path.join(input_dir,folder+'/wav')
 			speaker_id = hparams.speakers.index(folder.split('_')[2])
