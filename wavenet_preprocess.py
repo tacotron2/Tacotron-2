@@ -17,12 +17,10 @@ def preprocess(args, input_dir, out_dir, hparams):
 	os.makedirs(wav_dir, exist_ok=True)
 	metadata = []
 	for folder in os.listdir(input_dir):
-		print(folder)
-		if os.path.isdir(folder):
-			print('preprocessing',folder,'...')
-			in_dir = os.path.join(input_dir,folder+'/wav')
-			speaker_id = hparams.speakers.index(folder.split('_')[2])
-			metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
+		print('preprocessing',folder,'...')
+		in_dir = os.path.join(input_dir,folder+'/wav')
+		speaker_id = hparams.speakers.index(folder.split('_')[2])
+		metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
 	write_metadata(metadata, out_dir)
 
 def write_metadata(metadata, out_dir):
@@ -66,6 +64,7 @@ def extract_data(data_root,extract_path):
 		tar = tarfile.open(join(data_root, file), "r:bz2")
 		tar.extractall(extract_path)
 		tar.close()
+		os.remove(file)
 
 if __name__ == '__main__':
 	main()
