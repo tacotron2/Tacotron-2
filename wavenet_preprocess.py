@@ -18,7 +18,8 @@ def preprocess(args, input_dir, out_dir, hparams):
 	metadata = []
 	for folder in os.listdir(input_dir):
 		if os.path.isdir(folder):
-			in_dir = os.path.join(input_dir,folder+'/wavs')
+			print('preprocessing',folder,'...')
+			in_dir = os.path.join(input_dir,folder+'/wav')
 			speaker_id = hparams.speakers.index(folder.split('_')[2])
 			metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
 	write_metadata(metadata, out_dir)
