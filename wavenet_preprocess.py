@@ -48,7 +48,7 @@ def main():
 	parser.add_argument('--extract', default=True)
 	parser.add_argument('--hparams', default='',
 		help='Hyperparameter overrides as a comma-separated list of name=value pairs')
-	parser.add_argument('--input_dir', default='datasets')
+	parser.add_argument('--input_dir', default='dataset')
 	parser.add_argument('--output', default='tacotron_output/gta/')
 	parser.add_argument('--n_jobs', type=int, default=cpu_count())
 	args = parser.parse_args()
