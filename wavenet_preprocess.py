@@ -17,6 +17,7 @@ def preprocess(args, input_dir, out_dir, hparams):
 	os.makedirs(wav_dir, exist_ok=True)
 	metadata = []
 	for folder in os.listdir(input_dir):
+		print(folder)
 		if os.path.isdir(folder):
 			print('preprocessing',folder,'...')
 			in_dir = os.path.join(input_dir,folder+'/wav')
@@ -46,7 +47,7 @@ def main():
 	print('initializing preprocessing..')
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--base_dir', default='')
-	parser.add_argument('--extract', default=True)
+	parser.add_argument('--extract', default=False)
 	parser.add_argument('--hparams', default='',
 		help='Hyperparameter overrides as a comma-separated list of name=value pairs')
 	parser.add_argument('--input_dir', default='dataset')
