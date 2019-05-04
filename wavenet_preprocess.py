@@ -9,18 +9,17 @@ from tqdm import tqdm
 
 
 def preprocess(args, input_dir, out_dir, hparams):
-	if args.extract:
-		extract_data(input_dir,input_dir)
 	mel_dir = os.path.join(out_dir, 'mels')
 	wav_dir = os.path.join(out_dir, 'audio')
 	os.makedirs(mel_dir, exist_ok=True)
 	os.makedirs(wav_dir, exist_ok=True)
 	metadata = []
 	for folder in os.listdir(input_dir):
-		print('preprocessing',folder,'...')
-		in_dir = os.path.join(input_dir,folder+'/wav')
-		speaker_id = hparams.speakers.index(folder.split('_')[2])
-		metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
+		if not folder.str.endswith('.tar.bz2'):
+			print('preprocessing',folder,'...')
+			in_dir = os.path.join(input_dir,folder+'/wav')
+			speaker_id = hparams.speakers.index(folder.split('_')[2])
+			metadata+= build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
 	write_metadata(metadata, out_dir)
 
 def write_metadata(metadata, out_dir):
@@ -38,7 +37,8 @@ def write_metadata(metadata, out_dir):
 
 def run_preprocess(args, hparams):
 	output_folder = os.path.join(args.base_dir, args.output)
-
+	if args.extract:
+		extract_data(args.input_dir,args.input_dir)
 	preprocess(args, args.input_dir, output_folder, hparams)
 
 def main():
@@ -64,7 +64,6 @@ def extract_data(data_root,extract_path):
 		tar = tarfile.open(join(data_root, file), "r:bz2")
 		tar.extractall(extract_path)
 		tar.close()
-		os.remove(file)
 
 if __name__ == '__main__':
 	main()
