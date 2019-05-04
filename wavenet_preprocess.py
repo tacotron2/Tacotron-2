@@ -20,7 +20,7 @@ def preprocess(args, input_dir, out_dir, hparams):
 	metadata = []
 	for folder in os.listdir(input_dir):
 		if os.path.isdir(folder):
-			in_dir = os.path.join(input_dir,folder)
+			in_dir = os.path.join(input_dir,folder+'/wavs')
 			speaker_id = hparams.speakers.index(folder.split('_')[2])
 			metadata+= wavenet_preprocessor.build_from_path(hparams, in_dir, mel_dir, wav_dir,speaker_id, args.n_jobs, tqdm=tqdm)
 	write_metadata(metadata, out_dir)
@@ -50,7 +50,7 @@ def main():
 	parser.add_argument('--extract', default=True)
 	parser.add_argument('--hparams', default='',
 		help='Hyperparameter overrides as a comma-separated list of name=value pairs')
-	parser.add_argument('--input_dir', default='LJSpeech-1.1/wavs')
+	parser.add_argument('--input_dir', default='datasets')
 	parser.add_argument('--output', default='tacotron_output/gta/')
 	parser.add_argument('--n_jobs', type=int, default=cpu_count())
 	args = parser.parse_args()
@@ -60,7 +60,7 @@ def main():
 	run_preprocess(args, modified_hp)
 
 def extract_data(data_root,extract_path):
-	files = [f for f in listdir(data_root) if isfile(join(data_root, f))]
+	files = [f for f in os.path.listdir(data_root) if isfile(join(data_root, f))]
 	for file in files:
 		print("Extracting:", file)
 		tar = tarfile.open(join(data_root, file), "r:bz2")
