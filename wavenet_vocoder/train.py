@@ -274,6 +274,7 @@ def train(log_dir, args, hparams, input_path):
 						load_averaged_model(sess, sh_saver, checkpoint_state.model_checkpoint_path)
 					else:
 						log('No model to load at {}'.format(save_dir), slack=True)
+						save_checkpoint(sess,sh_saver,checkpoint_path,global_step)
 						if hparams.wavenet_weight_normalization:
 							run_init = True
 
@@ -281,6 +282,7 @@ def train(log_dir, args, hparams, input_path):
 					log('Cannot restore checkpoint: {}'.format(e), slack=True)
 			else:
 				log('Starting new training!', slack=True)
+				save_checkpoint(sess,sh_saver,checkpoint_path,global_step)
 				if hparams.wavenet_weight_normalization:
 					run_init = True
 

@@ -37,7 +37,7 @@ def _expand_global_features(batch_size, time_length, global_features, data_forma
 	# 	lambda: global_features)
 	g = tf.reshape(global_features, [tf.shape(global_features)[0], global_features.shape[1], 1])
 	g_shape = tf.shape(g)
-	print(g_shape,g.shape)
+	
 	#[batch_size, channels, 1] ==> [batch_size, channels, time_length]
 	# ones = tf.ones([g_shape[0], g_shape[1], time_length], tf.int32)
 	# g = g * ones
