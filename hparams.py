@@ -199,7 +199,7 @@ hparams = tf.contrib.training.HParams(
 
 	#model parameters
 	#To use Gaussian distribution as output distribution instead of mixture of logistics, set "out_channels = 2" instead of "out_channels = 10 * 3". (UNDER TEST)
-	out_channels = 2, #This should be equal to quantize channels when input type is 'mulaw-quantize' else: num_distributions * 3 (prob, mean, log_scale).
+	out_channels = 10*3, #This should be equal to quantize channels when input type is 'mulaw-quantize' else: num_distributions * 3 (prob, mean, log_scale).
 	layers = 20, #Number of dilated convolutions (Default: Simplified Wavenet of Tacotron-2 paper)
 	stacks = 2, #Number of dilated convolution stacks (Default: Simplified Wavenet of Tacotron-2 paper)
 	residual_channels = 128, #Number of residual block input/output channels.
@@ -225,12 +225,11 @@ hparams = tf.contrib.training.HParams(
 	NN_scaler = 0.3, #Determines the initial Nearest Neighbor upsample values scale. i.e: upscaled_input_values = input_values * NN_scaler (1. to disable)
 
 	#global conditioning
-	gin_channels = -1, #Set this to -1 to disable global conditioning, Only used for multi speaker dataset. It defines the depth of the embeddings (Recommended: 16)
+	gin_channels = 16, #Set this to -1 to disable global conditioning, Only used for multi speaker dataset. It defines the depth of the embeddings (Recommended: 16)
 	use_speaker_embedding = True, #whether to make a speaker embedding
-	n_speakers = 5, #number of speakers (rows of the embedding)
+	n_speakers = 6, #number of speakers (rows of the embedding)
 	speakers_path = None, #Defines path to speakers metadata. Can be either in "speaker\tglobal_id" (with header) tsv format, or a single column tsv with speaker names. If None, use "speakers".
-	speakers = ['speaker0', 'speaker1', #List of speakers used for embeddings visualization. (Consult "wavenet_vocoder/train.py" if you want to modify the speaker names source).
-				'speaker2', 'speaker3', 'speaker4'], #Must be consistent with speaker ids specified for global conditioning for correct visualization.
+	speakers = ['awb','bdl','clb','ksp','rms','slt'], #Must be consistent with speaker ids specified for global conditioning for correct visualization.
 	###########################################################################################################################################
 
 	#Tacotron Training

@@ -7,7 +7,7 @@ from datasets import audio
 from wavenet_vocoder.util import is_mulaw, is_mulaw_quantize, mulaw, mulaw_quantize
 
 
-def build_from_path(hparams, input_dir, mel_dir, wav_dir, n_jobs=12, tqdm=lambda x: x):
+def build_from_path(hparams, input_dir, mel_dir, wav_dir,speaker_id, n_jobs=12, tqdm=lambda x: x):
 	"""
 	Preprocesses the speech dataset from a gven input path to given output directories
 
@@ -31,12 +31,12 @@ def build_from_path(hparams, input_dir, mel_dir, wav_dir, n_jobs=12, tqdm=lambda
 	for file in os.listdir(input_dir):
 		wav_path = os.path.join(input_dir, file)
 		basename = os.path.basename(wav_path).replace('.wav', '')
-		futures.append(executor.submit(partial(_process_utterance, mel_dir, wav_dir, basename, wav_path, hparams)))
+		futures.append(executor.submit(partial(_process_utterance, mel_dir, wav_dir, basename, wav_path,speaker_id, hparams)))
 
 	return [future.result() for future in tqdm(futures) if future.result() is not None]
 
 
-def _process_utterance(mel_dir, wav_dir, index, wav_path, hparams):
+def _process_utterance(mel_dir, wav_dir, index, wav_path,speaker_id, hparams):
 	"""
 	Preprocesses a single utterance wav/text pair
 
@@ -145,8 +145,7 @@ def _process_utterance(mel_dir, wav_dir, index, wav_path, hparams):
 
 	#global condition features
 	if hparams.gin_channels > 0:
-		raise RuntimeError('When activating global conditions, please set your speaker_id rules in line 129 of datasets/wavenet_preprocessor.py to use them during training')
-		speaker_id = '<no_g>' #put the rule to determine how to assign speaker ids (using file names maybe? file basenames are available in "index" variable)
+		speaker_id = speaker_id #put the rule to determine how to assign speaker ids (using file names maybe? file basenames are available in "index" variable)
 	else:
 		speaker_id = '<no_g>'
 
